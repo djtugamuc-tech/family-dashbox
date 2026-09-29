@@ -38,11 +38,16 @@ import { CATEGORIES, detectCategory } from "@/lib/shopping-categories";
 import { showUndoToast } from "@/lib/undo-toast";
 import { createClient } from "@/lib/supabase/client";
 import { useFamilyStore } from "@/stores/family-store";
+import { readEinkaufenEntry } from "@/lib/einkaufen-entry";
 
 export default function EinkaufenPage() {
   const t = useTranslations("einkaufen");
   // Drives whether the out-of-scope "back" link is rendered at all (see below).
   const isStandalone = useIsStandalone();
+  // Where in Kinboard this tab came from, if it came from Kinboard at all.
+  // Read after mount: sessionStorage doesn't exist during SSR.
+  const [enteredFrom, setEnteredFrom] = useState<string | null>(null);
+  useEffect(() => setEnteredFrom(readEinkaufenEntry()), []);
   const tCommon = useTranslations("common");
   const tCategories = useTranslations("shoppingCategories");
   const queryClient = useQueryClient();
@@ -469,9 +474,15 @@ export default function EinkaufenPage() {
             has no navigation of its own to get back with. In a browser tab the
             link is still useful, because there the dashboard is where they
             came from.
+
+            Standalone alone doesn't mean "the installed shopping app", though:
+            the main Kinboard PWA and kiosk fullscreen browsers match it too,
+            and arriving from the /shopping header there left no way out at
+            all (discussion #289). So a visit entered from inside Kinboard
+            always gets its way back — to the page it came from.
           */}
-          {!isStandalone && (
-            <Link href="/" className="p-2 text-muted-foreground hover:text-foreground transition-colors" aria-label={t("backHomeAria")}>
+          {(!isStandalone || enteredFrom !== null) && (
+            <Link href={enteredFrom ?? "/"} className="p-2 text-muted-foreground hover:text-foreground transition-colors" aria-label={t("backHomeAria")}>
               <ChevronLeft className="size-5" />
             </Link>
           )}

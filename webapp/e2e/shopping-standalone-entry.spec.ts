@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { markEinkaufenEntry, readEinkaufenEntry } from "../src/lib/einkaufen-entry";
 
 /**
  * The standalone shopping app at /einkaufen was reachable from exactly one
@@ -54,7 +55,73 @@ test("the label exists in all three languages", () => {
 
 test("the standalone page still offers a way back", () => {
   // Reaching it from the header must not be a one-way trip.
-  expect(src("app", "einkaufen", "page.tsx")).toContain('<Link href="/"');
+  expect(src("app", "einkaufen", "page.tsx")).toContain('<Link href={enteredFrom ?? "/"}');
+});
+
+test.describe("entered from an installed Kinboard window (discussion #289)", () => {
+  // The main Kinboard PWA and kiosk fullscreen browsers match display-mode
+  // standalone just like the installed shopping app does. Hiding the back link
+  // on standalone alone stranded wall tablets on /einkaufen with no navigation
+  // and no browser chrome.
+  const page = src("app", "einkaufen", "page.tsx");
+
+  test("the back link is not hidden by standalone alone", () => {
+    expect(page).toContain("(!isStandalone || enteredFrom !== null) &&");
+    expect(page).not.toMatch(/\{!isStandalone && \(\s*<Link/);
+  });
+
+  test("every in-app link to /einkaufen records where it came from", () => {
+    const prompt = src("components", "shopping-install-prompt.tsx");
+    for (const [name, file] of [["shopping", shopping], ["install prompt", prompt]] as const) {
+      const links = file.match(/<a href="\/einkaufen"[^>]*>/g) ?? [];
+      expect(links.length, name).toBeGreaterThan(0);
+      for (const link of links) expect(link, name).toContain("onClick={markEinkaufenEntry}");
+    }
+  });
+});
+
+test.describe("the entry note", () => {
+  // Minimal sessionStorage + location stand-ins for the helper under node.
+  const store = new Map<string, string>();
+  const g = globalThis as Record<string, unknown>;
+  test.beforeEach(() => {
+    store.clear();
+    g.sessionStorage = {
+      getItem: (k: string) => store.get(k) ?? null,
+      setItem: (k: string, v: string) => void store.set(k, v),
+    };
+  });
+  test.afterAll(() => {
+    delete g.sessionStorage;
+    delete g.window;
+  });
+
+  test("a direct launch has nowhere to go back to", () => {
+    expect(readEinkaufenEntry()).toBeNull();
+  });
+
+  test("a click from /shopping leads back to /shopping", () => {
+    g.window = { location: { pathname: "/shopping" } };
+    markEinkaufenEntry();
+    expect(readEinkaufenEntry()).toBe("/shopping");
+  });
+
+  test("never off-origin, never back to itself", () => {
+    for (const bad of ["//evil.example/x", "https://evil.example", "javascript:alert(1)", "/einkaufen"]) {
+      store.set("kinboard-einkaufen-entered-from", bad);
+      expect(readEinkaufenEntry(), bad).toBeNull();
+    }
+  });
+
+  test("blocked storage is not an error", () => {
+    g.sessionStorage = {
+      getItem: () => { throw new Error("SecurityError"); },
+      setItem: () => { throw new Error("SecurityError"); },
+    };
+    g.window = { location: { pathname: "/shopping" } };
+    expect(() => markEinkaufenEntry()).not.toThrow();
+    expect(readEinkaufenEntry()).toBeNull();
+  });
 });
 
 test("the banner's dismissal is still only the banner's", () => {
