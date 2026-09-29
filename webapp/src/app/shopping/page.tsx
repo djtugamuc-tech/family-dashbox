@@ -82,6 +82,7 @@ import { EmptyState } from "@/components/empty-state";
 import { CATEGORIES, detectCategory } from "@/lib/shopping-categories";
 import { ChecklistItem } from "@/components/checklist-item";
 import { PersonAvatar } from "@/components/person-avatar";
+import { markEinkaufenEntry } from "@/lib/einkaufen-entry";
 
 
 // Minimal Web Speech API surface — feature-detected, no external types.
@@ -790,7 +791,7 @@ export default function ShoppingPage() {
                     loaded. Arriving there by client-side navigation can leave
                     the install offering the main app, scoped to "/".
                   */}
-                  <a href="/einkaufen" aria-label={tPrompt("openStandaloneAria")}>
+                  <a href="/einkaufen" onClick={markEinkaufenEntry} aria-label={tPrompt("openStandaloneAria")}>
                     <Smartphone className="size-4 mr-2" />
                     {tPrompt("openStandalone")}
                   </a>

@@ -7,6 +7,7 @@ import { ShoppingCart, X, Smartphone, ExternalLink, Compass } from "lucide-react
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { markEinkaufenEntry } from "@/lib/einkaufen-entry";
 
 const DISMISSED_COOKIE_NAME = "shopping-pwa-prompt-dismissed";
 // Separate dismiss state for the "open in Safari" hint shown when the
@@ -157,7 +158,7 @@ export function ShoppingInstallPrompt() {
                     the page properly means the install candidate is evaluated
                     against manifest-shopping.json from the start.
                   */}
-                  <a href="/einkaufen">
+                  <a href="/einkaufen" onClick={markEinkaufenEntry}>
                     <Button variant="outline" size="sm" className="border-success/30 hover:bg-success/10">
                       {isIOS ? (
                         <>
