@@ -8,7 +8,20 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Family Dashbox restyle (Weekaroo look).** A new cool, teal-leaning neutral palette
+  **"Lagune"** — inspired by [Weekaroo](https://github.com/Fins1600/weekaroo)'s deep
+  green-teal surface — is now the default, joining Sand / Sage / Warm-grey in
+  **Settings → Theme** (labels added for EN/DE/FR). The twelve monthly accent themes still
+  rotate on top, exactly like Weekaroo's own accent variants over its dark panel.
+
 ### Changed
+
+- **Softer, more dimensional cards.** Base corner radius raised 0.75rem → 1rem (cards land
+  at ~20px, matching Weekaroo's tiles), card elevation deepened slightly, and cards gained a
+  no-blur "glass" catch-light (a top highlight + faint surface gradient over the solid
+  surface — kiosk/ARM-safe, contrast untouched). Widget cards now lift toward the viewer on
+  hover (Weekaroo's signature micro-interaction; respects `prefers-reduced-motion`). The
+  page background gained a soft accent glow behind the hero. No layout or feature changes.
 
 ### Fixed
 

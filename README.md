@@ -25,6 +25,24 @@ self-hosted dashboard built for the kitchen wall and every phone in the house.
 
 ---
 
+## Family Dashbox — a restyled fork
+
+**Family Dashbox** is an MIT fork of [Kinboard](https://github.com/svenger87/kinboard)
+that keeps all of Kinboard's features and layout but restyles the interface toward the
+look of [Weekaroo](https://github.com/Fins1600/weekaroo) — a cooler, "Lagune" teal palette
+(the new default, alongside Kinboard's Sand / Sage / Warm-grey), softer corners, a subtle
+no-blur "glass" depth on cards, and Weekaroo's hover-lift micro-interaction. Dark/light
+mode, the twelve monthly accent themes, i18n (EN/DE/FR), realtime, and offline shopping are
+all preserved. See [`DESIGN.md`](DESIGN.md) for the token analysis and [`LOCAL-DEV.md`](LOCAL-DEV.md)
+for the local run recipe.
+
+> **Attribution & licenses.** Family Dashbox builds on two MIT-licensed projects:
+> **Kinboard** © svenger87 (the entire application) and **Weekaroo** © Fins1600 (visual
+> design inspiration only — no Weekaroo code is used). Both are MIT; this fork stays MIT.
+> The upstream Kinboard `LICENSE` is unchanged.
+
+---
+
 ## Install
 
 Kinboard needs Linux, Git, OpenSSL, and Docker with Compose v2. The installer
