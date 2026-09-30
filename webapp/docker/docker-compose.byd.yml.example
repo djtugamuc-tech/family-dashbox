@@ -1,0 +1,36 @@
+# BYD vehicle overlay (Family Dashbox).
+#
+# Runs the BYD sidecar (wraps the `pybyd` library) so Kinboard's native `byd`
+# vehicle driver can read a BYD car WITHOUT Home Assistant. Opt-in: copy to
+# docker-compose.byd.yml and add it to COMPOSE_FILES.
+#
+#   cp docker-compose.byd.yml.example docker-compose.byd.yml
+#   COMPOSE_FILES="-f docker-compose.yml -f docker-compose.image.yml -f docker-compose.byd.yml" \
+#     ./start.sh up
+#
+# Credentials are NOT stored here — the user enters their BYD account in
+# Kinboard (Settings -> BYD); they're kept in `integration_secrets` and passed
+# to the sidecar per request. Set BYD_MOCK=1 to render sample Seal U DMi data
+# without a real account (for testing the UI).
+#
+# NEVER publish port 8140 to the public internet — home network only.
+
+services:
+  byd-sidecar:
+    build: ./byd-sidecar
+    container_name: ${PROJECT_NAME:-kinboard}-byd-sidecar
+    restart: unless-stopped
+    environment:
+      # Flip to 0 once you've entered real BYD credentials in Settings -> BYD.
+      BYD_MOCK: ${BYD_MOCK:-1}
+    # Published to host so the host-run Next.js dev server (:3001) can reach it
+    # at http://localhost:8140. The dockerized webapp uses http://byd-sidecar:8140.
+    ports:
+      - "8140:8140"
+    networks:
+      - kinboard
+
+  # Point the dockerized webapp at the sidecar.
+  webapp:
+    environment:
+      BYD_SIDECAR_URL: http://byd-sidecar:8140

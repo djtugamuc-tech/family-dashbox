@@ -1942,11 +1942,13 @@
       "emptyDescription": "Füge ein Fahrzeug hinzu, um Batterie, Reichweite und Ladestatus zu verfolgen.",
       "driver": {
         "tesla": "Tesla",
-        "generic-ev": "Generisches E-Auto (über Home Assistant)"
+        "generic-ev": "Generisches E-Auto (über Home Assistant)",
+        "byd": "BYD"
       },
       "driverDescription": {
         "tesla": "Nativer Tesla-Zugang über die Home Assistant Fleet-Integration.",
-        "generic-ev": "Jedes Auto, mit dem Home Assistant sprechen kann — VW, BMW, Kia, Polestar, Volvo, OBD2-Dongles. Wähle die Entitäten aus, die gelesen werden sollen; alle sind optional."
+        "generic-ev": "Jedes Auto, mit dem Home Assistant sprechen kann — VW, BMW, Kia, Polestar, Volvo, OBD2-Dongles. Wähle die Entitäten aus, die gelesen werden sollen; alle sind optional.",
+        "byd": "Dein BYD-Auto über das BYD-App-Konto (ohne Home Assistant)."
       },
       "image": "Bild",
       "imageHint": "Optional. PNG, JPG oder WebP bis 5 MB. Ohne Bild wird ein generisches Tesla-Rendering oder ein Fahrzeugsymbol angezeigt.",
@@ -2525,7 +2527,38 @@
       }
     },
     "diagnosticsBundleLabel": "Geladene Version",
-    "diagnosticsBundleStale": "{version} — zum Aktualisieren tippen"
+    "diagnosticsBundleStale": "{version} — zum Aktualisieren tippen",
+    "byd": {
+      "title": "BYD",
+      "subtitle": "Zeige dein BYD-Auto auf dem Dashboard — Akku, Reichweite und Kraftstoff.",
+      "accountTitle": "BYD-Konto",
+      "connectedBadge": "Verbunden",
+      "loginButton": "BYD-Konto verbinden",
+      "disconnectButton": "Trennen",
+      "notConnectedTitle": "BYD-Konto verbinden",
+      "notConnectedDescription": "Melde dich mit deinem BYD-App-Konto an, um Akku, Reichweite und Kraftstoff deines Autos anzuzeigen.",
+      "loginDialogTitle": "BYD-Konto verbinden",
+      "emailLabel": "BYD-Konto (E-Mail/Telefon)",
+      "emailPlaceholder": "du@beispiel.de",
+      "passwordLabel": "Passwort",
+      "showPassword": "Passwort anzeigen",
+      "hidePassword": "Passwort verbergen",
+      "regionLabel": "Region",
+      "pinLabel": "Steuerungs-PIN (optional)",
+      "pinPlaceholder": "1234",
+      "pinHint": "Nur für Fernbefehle nötig; für reines Anzeigen leer lassen.",
+      "loginFailed": "Anmeldung fehlgeschlagen. Prüfe Zugangsdaten und Region.",
+      "loginSubmitting": "Verbinde…",
+      "loginSubmit": "Verbinden",
+      "loginSecurityHint": "Deine Zugangsdaten werden verschlüsselt auf deinem Server gespeichert und nie an den Browser gesendet.",
+      "vehiclesHeading": "Deine Fahrzeuge",
+      "noVehicles": "Keine Fahrzeuge in diesem Konto gefunden.",
+      "addVehicleHint": "Füge unter Einstellungen → Fahrzeuge eine Karte hinzu und wähle „BYD\".",
+      "autoPollLabel": "Automatisch aktualisieren",
+      "autoPollDescription": "Fahrzeugdaten alle paar Minuten im Hintergrund aktualisieren.",
+      "infoHeading": "Inoffizielle Integration",
+      "infoDescription": "Nutzt die Community-Bibliothek pybyd über einen lokalen Sidecar. BYD hat keine offizielle API — das kann brechen, wenn sich die BYD-App ändert."
+    }
   },
   "calendar": {
     "caldavToast": {
@@ -3568,6 +3601,22 @@
           "location": "Standort",
           "state": "Fahrzeugstatus"
         }
+      },
+      "byd": {
+        "notConnected": "BYD-Konto nicht verbunden.",
+        "connectCta": "In Einstellungen → BYD verbinden",
+        "pickVehicle": "Wähle in den Einstellungen dieser Karte, welches BYD-Fahrzeug angezeigt wird.",
+        "loading": "BYD-Daten werden geladen…",
+        "unavailable": "BYD-Daten momentan nicht verfügbar.",
+        "evLabel": "Elektrisch",
+        "charging": "Lädt",
+        "notCharging": "Lädt nicht",
+        "fuelLabel": "Kraftstoff",
+        "totalRange": "Gesamtreichweite",
+        "temps": "Innen / Außen",
+        "odometer": "Kilometerstand",
+        "selectVehicle": "Fahrzeug",
+        "noVehicles": "Keine Fahrzeuge in diesem Konto gefunden."
       }
     },
     "saving": "Wird gespeichert…",

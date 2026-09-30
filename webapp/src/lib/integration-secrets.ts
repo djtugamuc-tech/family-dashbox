@@ -14,6 +14,15 @@ export const SECRET_FIELDS: Record<string, string[]> = {
   [SETTINGS_KEYS.unsplash]: ["access_key"],
   [SETTINGS_KEYS.googleCalendar]: ["access_token", "refresh_token"],
   [SETTINGS_KEYS.bringSettings]: ["credentials.accessToken", "credentials.refreshToken"],
+  // BYD account creds — server-only. The sidecar needs all four per /status
+  // call; none may reach the browser. The `settings` "byd" row holds only the
+  // non-secret connection status (connected, accountLabel, region, autoPoll).
+  [SETTINGS_KEYS.byd]: [
+    "credentials.username",
+    "credentials.password",
+    "credentials.region",
+    "credentials.pin",
+  ],
   // Not a settings-table key — the outbound ICS feed token lives only in
   // integration_secrets (`upsertSecrets`/`getStoredSecrets` with key
   // "calendar_feed"). Added here purely so upsertSecrets' `SECRET_FIELDS[key] ?? []`

@@ -1187,7 +1187,7 @@ export interface Database {
           id: string;
           family_id: string;
           position: number;
-          vendor: "tesla" | "generic-ev";
+          vendor: "tesla" | "generic-ev" | "byd";
           nickname: string;
           color: string | null;
           config: Json;
@@ -1199,7 +1199,7 @@ export interface Database {
           id?: string;
           family_id: string;
           position?: number;
-          vendor: "tesla" | "generic-ev";
+          vendor: "tesla" | "generic-ev" | "byd";
           nickname: string;
           color?: string | null;
           config?: Json;
@@ -1211,7 +1211,7 @@ export interface Database {
           id?: string;
           family_id?: string;
           position?: number;
-          vendor?: "tesla" | "generic-ev";
+          vendor?: "tesla" | "generic-ev" | "byd";
           nickname?: string;
           color?: string | null;
           config?: Json;

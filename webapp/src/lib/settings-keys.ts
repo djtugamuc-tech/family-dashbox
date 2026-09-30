@@ -30,4 +30,6 @@ export const SETTINGS_KEYS = {
   locale: "locale",
   weekStart: "week_start",
   currency: "currency",
+  // Family Dashbox: BYD account connection (native vehicle driver, no HA).
+  byd: "byd",
 } as const;

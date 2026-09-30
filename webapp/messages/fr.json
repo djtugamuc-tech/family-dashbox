@@ -1942,11 +1942,13 @@
       "emptyDescription": "Ajoutez un véhicule pour suivre la batterie, l'autonomie et l'état de charge.",
       "driver": {
         "tesla": "Tesla",
-        "generic-ev": "VE générique (via Home Assistant)"
+        "generic-ev": "VE générique (via Home Assistant)",
+        "byd": "BYD"
       },
       "driverDescription": {
         "tesla": "Tesla natif via l'intégration Home Assistant Fleet.",
-        "generic-ev": "Toute voiture accessible à Home Assistant — VW, BMW, Kia, Polestar, Volvo, dongles OBD2. Choisissez les entités à lire ; toutes sont optionnelles."
+        "generic-ev": "Toute voiture accessible à Home Assistant — VW, BMW, Kia, Polestar, Volvo, dongles OBD2. Choisissez les entités à lire ; toutes sont optionnelles.",
+        "byd": "Votre BYD via le compte de l'app BYD (sans Home Assistant)."
       },
       "image": "Image",
       "imageHint": "Optionnel. PNG, JPG ou WebP jusqu'à 5 Mo. Par défaut, un rendu Tesla générique ou une icône de véhicule si non défini.",
@@ -2525,7 +2527,38 @@
       }
     },
     "diagnosticsBundleLabel": "Version chargée",
-    "diagnosticsBundleStale": "{version} — appuyez pour mettre à jour"
+    "diagnosticsBundleStale": "{version} — appuyez pour mettre à jour",
+    "byd": {
+      "title": "BYD",
+      "subtitle": "Affichez votre BYD sur le tableau de bord — batterie, autonomie et carburant.",
+      "accountTitle": "Compte BYD",
+      "connectedBadge": "Connecté",
+      "loginButton": "Connecter le compte BYD",
+      "disconnectButton": "Déconnecter",
+      "notConnectedTitle": "Connecter votre compte BYD",
+      "notConnectedDescription": "Connectez-vous avec votre compte de l'app BYD pour afficher la batterie, l'autonomie et le carburant.",
+      "loginDialogTitle": "Connecter le compte BYD",
+      "emailLabel": "Compte BYD (e-mail/téléphone)",
+      "emailPlaceholder": "vous@exemple.fr",
+      "passwordLabel": "Mot de passe",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "regionLabel": "Région",
+      "pinLabel": "Code PIN de contrôle (optionnel)",
+      "pinPlaceholder": "1234",
+      "pinHint": "Nécessaire seulement pour les commandes à distance ; laissez vide pour la lecture seule.",
+      "loginFailed": "Échec de la connexion. Vérifiez vos identifiants et la région.",
+      "loginSubmitting": "Connexion…",
+      "loginSubmit": "Connecter",
+      "loginSecurityHint": "Vos identifiants sont stockés chiffrés sur votre serveur et ne sont jamais envoyés au navigateur.",
+      "vehiclesHeading": "Vos véhicules",
+      "noVehicles": "Aucun véhicule trouvé sur ce compte.",
+      "addVehicleHint": "Ajoutez une carte sous Réglages → Véhicules et choisissez « BYD ».",
+      "autoPollLabel": "Actualisation auto",
+      "autoPollDescription": "Actualiser les données du véhicule en arrière-plan toutes les quelques minutes.",
+      "infoHeading": "Intégration non officielle",
+      "infoDescription": "Utilise la bibliothèque communautaire pybyd via un sidecar local. BYD n'a pas d'API officielle — cela peut casser lors d'une mise à jour de l'app BYD."
+    }
   },
   "calendar": {
     "caldavToast": {
@@ -3568,6 +3601,22 @@
           "location": "Position",
           "state": "État du véhicule"
         }
+      },
+      "byd": {
+        "notConnected": "Compte BYD non connecté.",
+        "connectCta": "Connecter dans Réglages → BYD",
+        "pickVehicle": "Choisissez le véhicule BYD à afficher dans les réglages de cette carte.",
+        "loading": "Chargement des données BYD…",
+        "unavailable": "Données BYD indisponibles pour le moment.",
+        "evLabel": "Électrique",
+        "charging": "En charge",
+        "notCharging": "Pas en charge",
+        "fuelLabel": "Carburant",
+        "totalRange": "Autonomie totale",
+        "temps": "Intérieur / Extérieur",
+        "odometer": "Kilométrage",
+        "selectVehicle": "Véhicule",
+        "noVehicles": "Aucun véhicule trouvé sur ce compte."
       }
     },
     "saving": "Enregistrement…",

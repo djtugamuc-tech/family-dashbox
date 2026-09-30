@@ -1,6 +1,7 @@
 import type { VehicleDriver } from "./types";
 import { teslaDriver } from "./tesla";
 import { genericEvDriver } from "./generic-ev";
+import { bydDriver } from "./byd";
 
 // Driver configs are intentionally heterogeneous; each driver owns its own
 // TConfig; callers go through `getDriver()` which preserves specificity.
@@ -10,6 +11,7 @@ import { genericEvDriver } from "./generic-ev";
 export const VEHICLE_DRIVERS: VehicleDriver<unknown>[] = [
   teslaDriver as VehicleDriver<unknown>,
   genericEvDriver as VehicleDriver<unknown>,
+  bydDriver as VehicleDriver<unknown>,
 ];
 
 export function getDriver(vendor: string): VehicleDriver | undefined {
