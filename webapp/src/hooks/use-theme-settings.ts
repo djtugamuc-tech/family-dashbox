@@ -19,15 +19,18 @@ const MONTHLY_THEMES = [
   "theme-december",
 ];
 
-export type Palette = "salbei" | "sand" | "warmgrey";
+export type Palette = "lagune" | "salbei" | "sand" | "warmgrey";
 
-// Sand is the base (no class); the others are override classes in globals.css.
+// Sand is the CSS base (no class); the others are override classes in
+// globals.css. "lagune" (cool/Weekaroo) is Family Dashbox's default and is
+// applied server-side in layout.tsx to avoid a flash.
 const PALETTE_CLASSES: Record<Palette, string | null> = {
   sand: null,
+  lagune: "palette-lagune",
   salbei: "palette-salbei",
   warmgrey: "palette-warmgrey",
 };
-const ALL_PALETTE_CLASSES = ["palette-salbei", "palette-warmgrey"];
+const ALL_PALETTE_CLASSES = ["palette-lagune", "palette-salbei", "palette-warmgrey"];
 
 export interface ThemeSettings {
   themeOverride: number | null;
@@ -39,7 +42,7 @@ export interface ThemeSettings {
 
 export const DEFAULT_THEME_SETTINGS: ThemeSettings = {
   themeOverride: null,
-  palette: "sand",
+  palette: "lagune",
   use24Hour: true,
   showSeconds: false,
   screensaverTimeout: 120,
@@ -56,7 +59,7 @@ export function useThemeSettings() {
   const currentMonth = new Date().getMonth();
   const themeOverride = settings?.themeOverride ?? null;
   const activeThemeIndex = themeOverride !== null ? themeOverride : currentMonth;
-  const palette: Palette = settings?.palette ?? "sand";
+  const palette: Palette = settings?.palette ?? "lagune";
 
   // Apply theme class to document
   useEffect(() => {

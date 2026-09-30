@@ -33,11 +33,13 @@ const MONTHLY_THEMES = [
   { color: "#166534", name: "Pine", class: "theme-december" },
 ];
 
-type Palette = "salbei" | "sand" | "warmgrey";
+type Palette = "lagune" | "salbei" | "sand" | "warmgrey";
 
-// Neutral palettes — same accent/month themes, different warm-neutral tones.
+// Neutral palettes — same accent/month themes, different neutral tones.
 // Swatch HSL values mirror globals.css (light-mode background/card/border).
+// "lagune" (cool/teal, the Weekaroo homage) is Family Dashbox's default.
 const PALETTES: { id: Palette; bg: string; card: string; border: string }[] = [
+  { id: "lagune", bg: "190 24% 93%", card: "185 40% 98%", border: "189 20% 84%" },
   { id: "sand", bg: "38 37% 88%", card: "43 54% 97%", border: "37 31% 85%" },
   { id: "salbei", bg: "72 25% 92%", card: "75 50% 98%", border: "77 19% 85%" },
   { id: "warmgrey", bg: "37 18% 91%", card: "40 33% 98%", border: "37 18% 86%" },
@@ -60,7 +62,7 @@ interface ThemeSettings {
 
 const DEFAULT_SETTINGS: ThemeSettings = {
   themeOverride: null,
-  palette: "sand",
+  palette: "lagune",
   use24Hour: true,
   showSeconds: false,
 };
@@ -86,7 +88,7 @@ export default function ThemeSettingsPage() {
   const [textScale, setTextScale] = useTextScale();
 
   const themeOverride = settings?.themeOverride ?? null;
-  const palette: Palette = settings?.palette ?? "sand";
+  const palette: Palette = settings?.palette ?? "lagune";
   const use24Hour = settings?.use24Hour ?? true;
   const showSeconds = settings?.showSeconds ?? false;
 
@@ -107,13 +109,13 @@ export default function ThemeSettingsPage() {
   useEffect(() => {
     if (isLoading) return;
     const html = document.documentElement;
-    html.classList.remove("palette-salbei", "palette-warmgrey");
+    html.classList.remove("palette-lagune", "palette-salbei", "palette-warmgrey");
     if (palette !== "sand") html.classList.add(`palette-${palette}`);
   }, [palette, isLoading]);
 
   const currentSettings: ThemeSettings = {
     themeOverride: settings?.themeOverride ?? null,
-    palette: settings?.palette ?? "sand",
+    palette: settings?.palette ?? "lagune",
     use24Hour: settings?.use24Hour ?? true,
     showSeconds: settings?.showSeconds ?? false,
   };

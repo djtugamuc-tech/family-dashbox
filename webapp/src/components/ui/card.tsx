@@ -8,7 +8,9 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl border border-border bg-card text-card-foreground elev-md transition-shadow duration-200",
+      // Restyle (Weekaroo): `card-surface` adds a no-blur glass catch-light
+      // (top highlight + faint surface gradient) over the solid bg-card.
+      "rounded-2xl border border-border bg-card text-card-foreground card-surface elev-md transition-shadow duration-200",
       className
     )}
     {...props}

@@ -85,7 +85,10 @@
     --border: 37 31% 85%;
     --input: 37 31% 85%;
     --ring: 192 75% 33%;
-    --radius: 0.75rem;
+    /* Restyle (Weekaroo): softer corners. Weekaroo's panels are 24px and its
+       tiles 18–20px; Kinboard cards are rounded-2xl = radius+4px, so 1rem lands
+       cards at 20px. Everything derives from this one token (see tailwind). */
+    --radius: 1rem;
 
     /* status */
     --success: 150 43% 42%; --success-foreground: 0 0% 100%;
@@ -309,6 +312,33 @@
     --muted:36 14% 15%; --muted-foreground:36 10% 60%; --label-foreground:36 14% 71%;
     --accent:36 14% 15%; --accent-foreground:37 30% 92%;
     --border:36 11% 18%; --input:36 11% 18%; --priority-low:36 10% 60%;
+  }
+
+  /* Lagune — Family Dashbox's cool, teal-leaning neutral (the Weekaroo homage,
+     whose default surface is a deep green-teal #08110f). This is the fork's
+     DEFAULT palette (set server-side in layout.tsx + in use-theme-settings), so
+     the board reads "Weekaroo" out of the box. Sand/Salbei/Warmgrey stay
+     selectable, and the monthly accent still rotates on top — exactly like
+     Weekaroo's own accent-colour variants over its dark panel. */
+  .palette-lagune {
+    --background:190 24% 93%; --foreground:195 30% 12%;
+    --card:185 40% 98%; --card-foreground:195 30% 12%;
+    --popover:185 40% 98%; --popover-foreground:195 30% 12%;
+    --secondary:188 26% 89%; --secondary-foreground:195 30% 12%;
+    --muted:188 26% 89%; --muted-foreground:195 10% 38%; --label-foreground:195 14% 28%;
+    --accent:188 26% 89%; --accent-foreground:195 30% 12%;
+    --border:189 20% 84%; --input:189 20% 84%; --priority-low:195 10% 38%;
+    --shadow-rgb:20 45 50;
+  }
+  .dark.palette-lagune {
+    --background:183 30% 7%; --foreground:172 33% 92%;
+    --card:184 26% 11%; --card-foreground:172 33% 92%;
+    --popover:184 26% 11%; --popover-foreground:172 33% 92%;
+    --secondary:185 22% 15%; --secondary-foreground:172 33% 92%;
+    --muted:185 22% 15%; --muted-foreground:178 12% 60%; --label-foreground:175 16% 71%;
+    --accent:185 22% 15%; --accent-foreground:172 33% 92%;
+    --border:185 18% 18%; --input:185 18% 18%; --priority-low:178 12% 60%;
+    --shadow-rgb:0 8 10;
   }
 }
 
@@ -600,12 +630,33 @@
 
   /* Soft warm elevation (no glass for ARM-GPU kiosk surfaces) */
   /* Shadow tint follows the active neutral palette (--shadow-rgb); defaults to Salbei. */
-  .elev-sm { box-shadow: 0 1px 2px rgb(var(--shadow-rgb, 40 50 30) / .05), 0 1px 3px rgb(var(--shadow-rgb, 40 50 30) / .07); }
-  .elev-md { box-shadow: 0 2px 8px rgb(var(--shadow-rgb, 40 50 30) / .06), 0 10px 28px rgb(var(--shadow-rgb, 40 50 30) / .06); }
-  .elev-lg { box-shadow: 0 6px 16px rgb(var(--shadow-rgb, 40 50 30) / .09), 0 20px 50px rgb(var(--shadow-rgb, 40 50 30) / .09); }
+  /* Restyle (Weekaroo): a touch more float than before — Weekaroo panels cast a
+     deep 0 18px 50px shadow. Blur radii are unchanged (ARM GPUs); only the tint
+     opacity is raised, which costs nothing to composite. */
+  .elev-sm { box-shadow: 0 1px 2px rgb(var(--shadow-rgb, 40 50 30) / .06), 0 1px 3px rgb(var(--shadow-rgb, 40 50 30) / .08); }
+  .elev-md { box-shadow: 0 2px 8px rgb(var(--shadow-rgb, 40 50 30) / .08), 0 12px 30px rgb(var(--shadow-rgb, 40 50 30) / .10); }
+  .elev-lg { box-shadow: 0 8px 20px rgb(var(--shadow-rgb, 40 50 30) / .12), 0 24px 56px rgb(var(--shadow-rgb, 40 50 30) / .14); }
 
-  .accent-border-top { border-top: 2px solid hsl(var(--primary) / 0.3); transition: border-color .22s ease, box-shadow .22s ease; }
-  .accent-border-top:hover { border-top-color: hsl(var(--primary) / 0.5); box-shadow: 0 0 24px hsl(var(--primary) / 0.1); }
+  /* Weekaroo-style "glass" catch-light — a top-down highlight + a faint surface
+     gradient that reads as depth WITHOUT backdrop-blur (banned on kiosk ARM
+     GPUs). Layered over the card's solid `bg-card`, so contrast is untouched.
+     Applied to the base Card (see components/ui/card.tsx). */
+  .card-surface {
+    background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.05), hsl(0 0% 100% / 0) 42%);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07);
+  }
+  .dark .card-surface {
+    background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.035), hsl(0 0% 100% / 0) 42%);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.05);
+  }
+  /* card-surface carries its own inset highlight; compose it with elevation. */
+  .card-surface.elev-md { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07), 0 2px 8px rgb(var(--shadow-rgb, 40 50 30) / .08), 0 12px 30px rgb(var(--shadow-rgb, 40 50 30) / .10); }
+  .dark .card-surface.elev-md { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 2px 8px rgb(var(--shadow-rgb, 40 50 30) / .08), 0 12px 30px rgb(var(--shadow-rgb, 40 50 30) / .10); }
+
+  .accent-border-top { border-top: 2px solid hsl(var(--primary) / 0.35); transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease; }
+  /* Weekaroo's signature micro-interaction: cards lift toward the viewer. */
+  .accent-border-top:hover { border-top-color: hsl(var(--primary) / 0.6); box-shadow: 0 12px 34px rgb(var(--shadow-rgb, 40 50 30) / .16), 0 0 24px hsl(var(--primary) / 0.12); transform: translateY(-2px); }
+  @media (prefers-reduced-motion: reduce) { .accent-border-top:hover { transform: none; } }
 
   .icon-badge { @apply p-2.5 rounded-xl; background: hsl(var(--primary) / 0.12); color: hsl(var(--primary)); }
 
@@ -621,10 +672,17 @@
     box-shadow: 0 0 20px hsl(var(--month-primary) / 0.15);
   }
 
-  /* Page background gradient - the app's visual signature */
+  /* Page background gradient - the app's visual signature.
+     Restyle (Weekaroo): Weekaroo sits a UI over a full-bleed photo with an
+     ambient glow. We keep Kinboard's flat, legible background but give it more
+     life — a soft accent glow from the top (behind the hero clock) plus a
+     warmer accent wash at the foot. Still just a fixed gradient: no image, no
+     blur, no GPU cost on the wall panel. */
   .page-gradient {
     @apply fixed inset-0 pointer-events-none;
-    background: linear-gradient(to bottom, hsl(var(--background)), hsl(var(--background)), hsl(var(--month-primary) / 0.05));
+    background:
+      radial-gradient(130% 80% at 50% -12%, hsl(var(--month-primary) / 0.12), transparent 58%),
+      linear-gradient(to bottom, hsl(var(--background)), hsl(var(--background)) 52%, hsl(var(--month-primary) / 0.07));
   }
 }
 
