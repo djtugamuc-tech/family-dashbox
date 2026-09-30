@@ -87,5 +87,35 @@ Realtime, offline shopping, i18n EN/DE/FR (`webapp/messages/*.json` parity), dar
    note, countdown, event-pill.
 4. **Dashboard layout**: spacing/rhythm polish (keep grid breakpoints).
 
-## 5. Figma weather-card reference — *pending MCP auth*
-_To fill: card hierarchy, weather icons, gradient specs, layout of the weather dashboard cards._
+## 5. Figma weather-card reference (Design-Vorbild 2)
+
+Source: "Weather Dashboard (Community)", frame **Weather Dashboard - White / Celsius**
+(1512×982). Screenshot saved to `../design-ref/figma-weather-dashboard-white.png`.
+Style: **neumorphic** light UI — soft grey cards, very rounded corners, 3D/emoji weather
+icons, big bold rounded type, a green "Current Location" accent.
+
+**Card anatomy**
+- **Top bar**: Light/Dark toggle · large pill search ("Search for your preferred city…") · green
+  "Current Location" button.
+- **City/clock card**: city name, huge time (09:03), date.
+- **Current conditions card** (wide): big `24°C` + `Feels like: 22°C`, Sunrise/Sunset rows,
+  large 3D condition icon + label ("Sunny"), and a **2×2 metric grid** — Humidity / Wind Speed /
+  Pressure / UV, each a line icon + value + label.
+- **5-Day forecast**: list rows — 3D icon + temp + weekday/date.
+- **Hourly forecast** (the signature): a row of tall rounded cards, each = time · 3D icon · temp ·
+  blue wind-direction arrow · wind speed. **Each card's background is a vertical gradient keyed to
+  time of day** — warm amber/orange for daytime hours (12/15/18:00), cool indigo/purple for
+  evening/night (21/00:00).
+
+**What was adopted (adapted to Kinboard, not pixel-copied)**
+- ✅ **Time-of-day gradient on the hourly cards** — the standout idea. Kinboard's modal hourly
+  cards now wash warm (`--weather-sun`) for daylight hours and cool (`--weather-night`, new token)
+  for night, fading into `--card`; icons tint to match. Taller, `rounded-2xl`, softly elevated.
+- ✅ **Temp-tinted forecast tiles** on the dashboard weather widget (warm for warm days, cool for
+  cold) — the same warm/cool colour language, visible without opening the modal.
+- ✅ Big temperature type, feels-like, sunrise/sunset, metric grid — Kinboard's widget/modal
+  already had these; they inherit the new radius/glass tokens.
+- ❌ **Not adopted, deliberately**: full neumorphism (breaks in dark mode + banned soft-shadow
+  stacking on kiosk ARM GPUs) and the 3D/emoji icon set (Kinboard's Lucide line icons are themed,
+  monochrome, and ARM-friendly — swapping them would fight the whole design system). The Figma's
+  green accent is skipped so the monthly accent stays the accent.

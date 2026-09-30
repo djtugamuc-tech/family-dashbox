@@ -87,7 +87,8 @@ const config: Config = {
   				rain: 'hsl(var(--weather-rain))',
   				sun: 'hsl(var(--weather-sun))',
   				sunrise: 'hsl(var(--weather-sunrise))',
-  				sunset: 'hsl(var(--weather-sunset))'
+  				sunset: 'hsl(var(--weather-sunset))',
+  				night: 'hsl(var(--weather-night))'
   			},
   			energy: {
   				solar: 'hsl(var(--energy-solar))',

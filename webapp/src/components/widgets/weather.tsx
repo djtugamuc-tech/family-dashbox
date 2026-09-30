@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
@@ -29,6 +29,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useWeather, useWeatherForecast, useWeatherUnits } from "@/hooks";
+import { displayTempToCelsius, type UnitSystem } from "@/lib/weather-units";
 import { useTimeFormat } from "@/hooks/use-time-format";
 import { WeatherModal } from "./weather-modal";
 import { WidgetCard } from "@/components/widget-card";
@@ -66,6 +67,16 @@ function getWeatherIcon(condition: string) {
     }
   }
   return Cloud;
+}
+
+// Figma weather-dashboard cue: forecast tiles carry a warm/cool wash by
+// temperature (amber = warm day, indigo = cold), fading into the card. All
+// tokenised so it follows light/dark. Thresholds are Celsius, so normalise the
+// household's display units first (mirrors the modal's temp ladders).
+function forecastTintStyle(tempMax: number, system: UnitSystem): CSSProperties {
+  const c = displayTempToCelsius(tempMax, system);
+  const v = c >= 18 ? "--weather-sun" : c >= 8 ? "--weather-sunrise" : "--weather-night";
+  return { background: `linear-gradient(180deg, hsl(var(${v}) / 0.16), transparent 74%)` };
 }
 
 function WeatherSkeleton() {
@@ -139,7 +150,7 @@ export function Weather({ className = "" }: WeatherProps) {
   const t = useTranslations("weather");
   const [modalOpen, setModalOpen] = useState(false);
   const { data: weatherData, isLoading, error } = useWeather();
-  const { labels: unitLabels } = useWeatherUnits();
+  const { labels: unitLabels, system } = useWeatherUnits();
   const { data: forecast } = useWeatherForecast();
   // Sunrise and sunset arrive as "HH:mm" at the weather location — the server
   // works them out there and cannot know this household's clock setting.
@@ -231,7 +242,10 @@ export function Weather({ className = "" }: WeatherProps) {
                 return (
                   <Tooltip key={day.date}>
                     <TooltipTrigger asChild>
-                      <div className="flex flex-col items-center gap-1 flex-1 cursor-help">
+                      <div
+                        className="flex flex-col items-center gap-1 flex-1 cursor-help rounded-xl px-1.5 py-2"
+                        style={forecastTintStyle(day.tempMax, system)}
+                      >
                         <span className="text-xs text-muted-foreground">{day.dayName}</span>
                         <DayIcon className="size-5 text-primary/70" strokeWidth={1.75} />
                         <div className="text-xs">

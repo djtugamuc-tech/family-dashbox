@@ -22,6 +22,11 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   surface — kiosk/ARM-safe, contrast untouched). Widget cards now lift toward the viewer on
   hover (Weekaroo's signature micro-interaction; respects `prefers-reduced-motion`). The
   page background gained a soft accent glow behind the hero. No layout or feature changes.
+- **Weather cards gained a time-of-day tint** (from the Figma "Weather Dashboard" reference).
+  The hourly-forecast cards in the weather detail now wash warm amber for daylight hours and cool
+  indigo (new `--weather-night` token) for night, with matching icon tints and taller rounded
+  cards; the dashboard weather widget's mini-forecast tiles tint warm/cool by temperature. Lucide
+  icons, theming, units, and layout are unchanged.
 
 ### Fixed
 

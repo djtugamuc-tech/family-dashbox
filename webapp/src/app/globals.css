@@ -108,6 +108,10 @@
     --weather-sun: 33 70% 51%;
     --weather-sunrise: 36 72% 42%;
     --weather-sunset: 24 66% 45%;
+    /* Restyle (Figma weather dashboard): the hourly cards tint by time of day —
+       warm amber for daylight hours, cool indigo for night. --weather-sun is the
+       day tint; this is the night one. */
+    --weather-night: 244 45% 55%;
 
     /* energy */
     --energy-solar: 33 70% 51%;
@@ -214,6 +218,7 @@
     --weather-sun: 37 72% 56%;
     --weather-sunrise: 38 85% 58%;
     --weather-sunset: 26 78% 58%;
+    --weather-night: 246 55% 70%;
 
     --energy-solar: 37 72% 56%;
     --energy-battery: 155 41% 51%;
