@@ -334,6 +334,11 @@
     --accent:188 26% 89%; --accent-foreground:195 30% 12%;
     --border:189 20% 84%; --input:189 20% 84%; --priority-low:195 10% 38%;
     --shadow-rgb:20 45 50;
+    /* Teal is the FIXED accent (Weekaroo). This overrides the monthly accent
+       rotation for the default palette — defined after .theme-* so it wins.
+       Switch to Sand/Salbei/Warm-grey to get the month rotation back. */
+    --primary:184 84% 36%; --primary-foreground:0 0% 100%; --ring:184 84% 36%;
+    --month-primary:184 84% 36%; --month-accent:184 84% 36%; --month-secondary:186 38% 90%;
   }
   .dark.palette-lagune {
     --background:183 30% 7%; --foreground:172 33% 92%;
@@ -344,6 +349,8 @@
     --accent:185 22% 15%; --accent-foreground:172 33% 92%;
     --border:185 18% 18%; --input:185 18% 18%; --priority-low:178 12% 60%;
     --shadow-rgb:0 8 10;
+    --primary:178 82% 55%; --primary-foreground:186 45% 8%; --ring:178 82% 55%;
+    --month-primary:178 82% 55%; --month-accent:178 82% 55%; --month-secondary:186 28% 14%;
   }
 }
 
@@ -647,16 +654,26 @@
      GPUs). Layered over the card's solid `bg-card`, so contrast is untouched.
      Applied to the base Card (see components/ui/card.tsx). */
   .card-surface {
-    background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.05), hsl(0 0% 100% / 0) 42%);
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07);
+    /* Weekaroo frosted glass: a translucent surface that blurs the page aurora
+       behind it, with a bright catch-light edge. backdrop-blur is the real
+       thing here — beautiful on desktop/Mac. On a low-end ARM wall kiosk it can
+       cost GPU; `.no-glass` on <html> (Settings → Theme) drops the blur. */
+    background-color: hsl(var(--card) / 0.55);
+    background-image: linear-gradient(160deg, hsl(0 0% 100% / 0.12), hsl(0 0% 100% / 0) 46%);
+    backdrop-filter: blur(22px) saturate(165%);
+    -webkit-backdrop-filter: blur(22px) saturate(165%);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.16), inset 0 0 0 1px hsl(0 0% 100% / 0.06);
   }
   .dark .card-surface {
-    background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.035), hsl(0 0% 100% / 0) 42%);
-    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.05);
+    background-color: hsl(var(--card) / 0.42);
+    background-image: linear-gradient(160deg, hsl(0 0% 100% / 0.08), hsl(0 0% 100% / 0) 46%);
+    box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.10), inset 0 0 0 1px hsl(0 0% 100% / 0.07);
   }
-  /* card-surface carries its own inset highlight; compose it with elevation. */
-  .card-surface.elev-md { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.07), 0 2px 8px rgb(var(--shadow-rgb, 40 50 30) / .08), 0 12px 30px rgb(var(--shadow-rgb, 40 50 30) / .10); }
-  .dark .card-surface.elev-md { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.05), 0 2px 8px rgb(var(--shadow-rgb, 40 50 30) / .08), 0 12px 30px rgb(var(--shadow-rgb, 40 50 30) / .10); }
+  /* card-surface carries its own inset edge; compose it with elevation. */
+  .card-surface.elev-md { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.16), inset 0 0 0 1px hsl(0 0% 100% / 0.06), 0 2px 10px rgb(var(--shadow-rgb, 40 50 30) / .10), 0 18px 44px rgb(var(--shadow-rgb, 40 50 30) / .16); }
+  .dark .card-surface.elev-md { box-shadow: inset 0 1px 0 hsl(0 0% 100% / 0.10), inset 0 0 0 1px hsl(0 0% 100% / 0.07), 0 2px 10px rgb(var(--shadow-rgb, 40 50 30) / .14), 0 20px 50px rgb(var(--shadow-rgb, 40 50 30) / .22); }
+  /* Kiosk escape hatch: opt out of the (GPU-heavy) blur, keep the translucency. */
+  html.no-glass .card-surface { backdrop-filter: none; -webkit-backdrop-filter: none; background-color: hsl(var(--card)); }
 
   .accent-border-top { border-top: 2px solid hsl(var(--primary) / 0.35); transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease; }
   /* Weekaroo's signature micro-interaction: cards lift toward the viewer. */
@@ -683,11 +700,30 @@
      life — a soft accent glow from the top (behind the hero clock) plus a
      warmer accent wash at the foot. Still just a fixed gradient: no image, no
      blur, no GPU cost on the wall panel. */
+  /* The signature. A vivid teal→cyan→indigo aurora mesh behind the frosted
+     glass — this is what makes the board an eyecatcher and unmistakably NOT
+     stock Kinboard. Colourful even in light mode (no plain white). Pure CSS
+     gradients: self-contained, no photo, no external asset. */
   .page-gradient {
     @apply fixed inset-0 pointer-events-none;
     background:
-      radial-gradient(130% 80% at 50% -12%, hsl(var(--month-primary) / 0.12), transparent 58%),
-      linear-gradient(to bottom, hsl(var(--background)), hsl(var(--background)) 52%, hsl(var(--month-primary) / 0.07));
+      radial-gradient(62% 54% at 6% 2%, hsl(var(--primary) / 0.34), transparent 60%),
+      radial-gradient(60% 54% at 94% 6%, hsl(184 92% 50% / 0.36), transparent 60%),
+      radial-gradient(62% 56% at 50% 120%, hsl(258 80% 66% / 0.28), transparent 62%),
+      radial-gradient(50% 50% at 80% 84%, hsl(196 92% 56% / 0.26), transparent 60%),
+      radial-gradient(42% 42% at 24% 74%, hsl(168 85% 52% / 0.20), transparent 60%),
+      linear-gradient(155deg, hsl(186 48% 94%), hsl(198 44% 90%) 55%, hsl(250 46% 93%));
+  }
+  /* Dark mode is the hero: a deep teal base lit by bright teal/cyan + indigo
+     pools, so the glass panels glow with the colour behind them (Weekaroo). */
+  .dark .page-gradient {
+    background:
+      radial-gradient(62% 54% at 6% 2%, hsl(var(--primary) / 0.48), transparent 58%),
+      radial-gradient(60% 54% at 94% 5%, hsl(184 95% 52% / 0.50), transparent 58%),
+      radial-gradient(66% 62% at 50% 122%, hsl(256 82% 60% / 0.40), transparent 60%),
+      radial-gradient(48% 48% at 82% 78%, hsl(196 95% 56% / 0.36), transparent 58%),
+      radial-gradient(44% 44% at 22% 72%, hsl(166 90% 50% / 0.30), transparent 58%),
+      linear-gradient(150deg, hsl(186 46% 7%), hsl(193 52% 5%) 50%, hsl(252 40% 9%));
   }
 }
 
