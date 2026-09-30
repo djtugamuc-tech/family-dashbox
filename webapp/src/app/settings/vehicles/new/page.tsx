@@ -29,10 +29,10 @@ export default function NewVehiclePage() {
     try {
       const driver = VEHICLE_DRIVERS.find((d) => d.id === vendor);
       const created = await save({
-        vendor: vendor as "tesla" | "generic-ev",
+        vendor: vendor as "tesla" | "generic-ev" | "byd",
         nickname:
           nickname.trim() ||
-          (driver ? t(`driver.${driver.id as "tesla" | "generic-ev"}`) : "Vehicle"),
+          (driver ? t(`driver.${driver.id as "tesla" | "generic-ev" | "byd"}`) : "Vehicle"),
         config: (driver?.defaultConfig ?? {}) as Json,
       });
       router.replace(`/settings/vehicles/${created.id}`);
@@ -83,10 +83,10 @@ export default function NewVehiclePage() {
                       <Icon className="size-5 shrink-0" />
                       <div>
                         <div className="font-medium">
-                          {t(`driver.${d.id as "tesla" | "generic-ev"}`)}
+                          {t(`driver.${d.id as "tesla" | "generic-ev" | "byd"}`)}
                         </div>
                         <div className="text-sm text-muted-foreground">
-                          {t(`driverDescription.${d.id as "tesla" | "generic-ev"}`)}
+                          {t(`driverDescription.${d.id as "tesla" | "generic-ev" | "byd"}`)}
                         </div>
                       </div>
                     </button>

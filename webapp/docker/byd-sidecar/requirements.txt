@@ -1,0 +1,7 @@
+# BYD sidecar deps. pybyd is pinned to the version the hass-byd-vehicle
+# integration ships with (proven-good). Bump this when BYD's app breaks the
+# protocol and a newer pybyd fixes it — that's the whole point of the sidecar:
+# the fragile crypto lives in this maintained lib, not in our TypeScript.
+pybyd==0.0.76
+fastapi==0.115.6
+uvicorn[standard]==0.34.0

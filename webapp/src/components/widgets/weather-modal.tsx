@@ -383,14 +383,27 @@ export function WeatherModal({ open, onOpenChange }: WeatherModalProps) {
                 <div className="flex gap-3 pb-2">
                   {hourly.map((hour, index) => {
                     const HourIcon = getWeatherIcon(hour.conditionMain ?? hour.condition);
+                    // Figma weather-dashboard cue: each hour tints by time of
+                    // day — a warm amber wash for daylight hours, a cool indigo
+                    // one for night — fading into the card surface. Tokenised so
+                    // it follows light/dark; no fixed greys, no blur.
+                    const day = isDayHour(hour.time, currentWeather.sunrise, currentWeather.sunset);
                     return (
                       <div
                         key={index}
-                        className="flex flex-col items-center gap-1.5 min-w-[60px] p-2 rounded-lg bg-background/50"
+                        className="flex flex-col items-center gap-1.5 min-w-[68px] px-2.5 py-3 rounded-2xl border border-border/40 elev-sm"
+                        style={{
+                          background: day
+                            ? "linear-gradient(180deg, hsl(var(--weather-sun) / 0.20), hsl(var(--card)) 76%)"
+                            : "linear-gradient(180deg, hsl(var(--weather-night) / 0.24), hsl(var(--card)) 76%)",
+                        }}
                       >
                         <span className="text-xs text-muted-foreground">{formatWallClock(hour.time)}</span>
-                        <HourIcon className="size-5 text-primary" strokeWidth={1.5} />
-                        <span className="font-medium text-sm">{hour.temp}°</span>
+                        <HourIcon
+                          className={day ? "size-5 text-weather-sun" : "size-5 text-weather-night"}
+                          strokeWidth={1.75}
+                        />
+                        <span className="font-medium text-sm tabular-nums">{hour.temp}°</span>
                         {hour.precipProbability > 0 && (
                           <span className="text-xs text-weather-rain flex items-center gap-0.5">
                             <Droplets className="size-2.5" />
@@ -493,6 +506,20 @@ export function WeatherModal({ open, onOpenChange }: WeatherModalProps) {
       </DialogContent>
     </Dialog>
   );
+}
+
+/** True when an "HH:mm" hour falls between sunrise and sunset (both "HH:mm").
+    Drives the Figma-style warm/cool tint on the hourly cards. */
+function isDayHour(time: string, sunrise: string, sunset: string): boolean {
+  const toMin = (s: string) => {
+    const [h, m] = s.split(":").map(Number);
+    return h * 60 + (m || 0);
+  };
+  const t = toMin(time);
+  const sr = toMin(sunrise);
+  const ss = toMin(sunset);
+  if (!(ss > sr)) return true; // polar day / malformed input — default to day
+  return t >= sr && t < ss;
 }
 
 function tempBarColor(temp: number, system: UnitSystem) {

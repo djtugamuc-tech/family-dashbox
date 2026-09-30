@@ -8,7 +8,35 @@ follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Native BYD vehicle driver (no Home Assistant).** A new `byd` vehicle driver shows a BYD car
+  on the dashboard without Home Assistant, via a tiny Python sidecar (`webapp/docker/byd-sidecar`)
+  that wraps the community `pybyd` library. Connect the account in **Settings → BYD** (credentials
+  stored encrypted); pick the VIN per vehicle. The card shows the DM-i plug-in hybrid fully — EV
+  battery + range **and** fuel + range. `BYD_MOCK=1` renders sample data for testing. Read-only;
+  unofficial API. Opt-in overlay `docker-compose.byd.yml.example`.
+- **Family Dashbox restyle (Weekaroo look).** A new cool, teal-leaning neutral palette
+  **"Lagune"** — inspired by [Weekaroo](https://github.com/Fins1600/weekaroo)'s deep
+  green-teal surface — is now the default, joining Sand / Sage / Warm-grey in
+  **Settings → Theme** (labels added for EN/DE/FR). The twelve monthly accent themes still
+  rotate on top, exactly like Weekaroo's own accent variants over its dark panel.
+
 ### Changed
+
+- **Softer, more dimensional cards.** Base corner radius raised 0.75rem → 1rem (cards land
+  at ~20px, matching Weekaroo's tiles), card elevation deepened slightly, and cards gained a
+  no-blur "glass" catch-light (a top highlight + faint surface gradient over the solid
+  surface — kiosk/ARM-safe, contrast untouched). Widget cards now lift toward the viewer on
+  hover (Weekaroo's signature micro-interaction; respects `prefers-reduced-motion`). The
+  page background gained a soft accent glow behind the hero. No layout or feature changes.
+- **Bolder frosted-glass eyecatcher + fixed teal accent.** The page background is now a vivid
+  teal→cyan→indigo aurora and cards are real frosted glass (translucent + `backdrop-blur`) that the
+  aurora glows through. Teal is the fixed accent for the default Lagune palette (Sand/Sage/Warm-grey
+  keep the monthly accent rotation). `html.no-glass` drops the blur for low-end ARM kiosks.
+- **Weather cards gained a time-of-day tint** (from the Figma "Weather Dashboard" reference).
+  The hourly-forecast cards in the weather detail now wash warm amber for daylight hours and cool
+  indigo (new `--weather-night` token) for night, with matching icon tints and taller rounded
+  cards; the dashboard weather widget's mini-forecast tiles tint warm/cool by temperature. Lucide
+  icons, theming, units, and layout are unchanged.
 
 ### Fixed
 

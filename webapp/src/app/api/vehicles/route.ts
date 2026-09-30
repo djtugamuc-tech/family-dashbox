@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
   if (!familyMatchesSession(auth.session, body.family_id)) {
     return NextResponse.json({ error: "not authenticated" }, { status: 401 });
   }
-  if (body.vendor !== "tesla" && body.vendor !== "generic-ev") {
+  if (body.vendor !== "tesla" && body.vendor !== "generic-ev" && body.vendor !== "byd") {
     return NextResponse.json({ error: "unknown vendor" }, { status: 400 });
   }
 
